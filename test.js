@@ -1,5 +1,5 @@
-import test from 'ava';
-import {getProperty, setProperty, hasProperty, deleteProperty, escapePath, deepKeys} from './index.js';
+const test = require('ava');
+const {getProperty, setProperty, hasProperty, deleteProperty, escapePath, deepKeys} = require('./dist/index.umd');
 
 test('getProperty', t => {
 	const fixture1 = {foo: {bar: 1}};
@@ -25,9 +25,11 @@ test('getProperty', t => {
 	t.true(getProperty({'foo\\bar': true}, 'foo\\bar'));
 	t.true(getProperty({'\\': {foo: true}}, '\\\\.foo'));
 	t.true(getProperty({'bar\\.': true}, 'bar\\\\\\.'));
-	t.true(getProperty({'foo\\': {
-		bar: true,
-	}}, 'foo\\\\.bar'));
+	t.true(getProperty({
+		'foo\\': {
+			bar: true,
+		}
+	}, 'foo\\\\.bar'));
 	t.is(getProperty({foo: 1}, 'foo.bar'), undefined);
 	t.true(getProperty({'foo\\': true}, 'foo\\'));
 
@@ -39,7 +41,9 @@ test('getProperty', t => {
 	t.is(getProperty(fixture2, 'foo'), 'bar');
 	t.is(getProperty({}, 'hasOwnProperty'), Object.prototype.hasOwnProperty);
 
-	function fn() {}
+	function fn() {
+	}
+
 	fn.foo = {bar: 1};
 	t.is(getProperty(fn), fn);
 	t.is(getProperty(fn, 'foo'), fn.foo);
@@ -57,7 +61,9 @@ test('getProperty', t => {
 	t.false(getProperty([], 'foo.bar', false));
 	t.false(getProperty(undefined, 'foo.bar', false));
 
-	class F4Class {}
+	class F4Class {
+	}
+
 	F4Class.prototype.foo = 1;
 	const f4 = new F4Class();
 	t.is(getProperty(f4, 'foo'), 1); // #46
@@ -135,9 +141,11 @@ test('getProperty - with array indexes', t => {
 	t.false(getProperty([true], '0', false));
 
 	t.false(getProperty({foo: [true]}, 'foo.0', false));
-	t.true(getProperty({foo: {
-		0: true,
-	}}, 'foo.0'));
+	t.true(getProperty({
+		foo: {
+			0: true,
+		}
+	}, 'foo.0'));
 
 	t.true(getProperty([{
 		'[1]': true,
@@ -193,7 +201,9 @@ test('setProperty', t => {
 	setProperty(fixture1, 'foo.function', func);
 	t.is(fixture1.foo.function, func);
 
-	function fn() {}
+	function fn() {
+	}
+
 	setProperty(fn, 'foo.bar', 1);
 	t.is(fn.foo.bar, 1);
 
@@ -362,7 +372,9 @@ test('hasProperty', t => {
 	t.false(hasProperty({foo: null}, 'foo.bar'));
 	t.false(hasProperty({foo: ''}, 'foo.bar'));
 
-	function fn() {}
+	function fn() {
+	}
+
 	fn.foo = {bar: 1};
 	t.false(hasProperty(fn));
 	t.true(hasProperty(fn, 'foo'));
@@ -382,9 +394,11 @@ test('hasProperty', t => {
 		foo: [{bar: ['bar', 'bizz']}],
 	}, 'foo[1].bar.1'));
 	t.true(hasProperty({
-		foo: [{bar: {
-			1: 'bar',
-		}}],
+		foo: [{
+			bar: {
+				1: 'bar',
+			}
+		}],
 	}, 'foo[0].bar.1'));
 });
 
@@ -466,7 +480,7 @@ test('deepKeys', t => {
 
 test('deepKeys - does not throw on sparse array', t => {
 	const object = {
-		sparse: [1,,3], // eslint-disable-line no-sparse-arrays, comma-spacing
+		sparse: [1, , 3], // eslint-disable-line no-sparse-arrays, comma-spacing
 	};
 
 	const keys = deepKeys(object);

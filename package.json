@@ -1,26 +1,39 @@
 {
-	"name": "dot-prop",
-	"version": "8.0.2",
+	"name": "dot-prop-bl",
+	"version": "8.0.8",
 	"description": "Get, set, or delete a property from a nested object using a dot path",
 	"license": "MIT",
-	"repository": "sindresorhus/dot-prop",
-	"funding": "https://github.com/sponsors/sindresorhus",
+	"repository": "AIEPhoenix/dot-prop-bl",
+	"funding": "https://github.com/AIEPhoenix/dot-prop-bl",
 	"author": {
-		"name": "Sindre Sorhus",
-		"email": "sindresorhus@gmail.com",
-		"url": "https://sindresorhus.com"
+		"name": "Brian Lee",
+		"email": "brianlee93@vip.qq.com"
 	},
-	"type": "module",
-	"exports": "./index.js",
+	"main": "dist/index.cjs.js",
+	"module": "dist/index.esm.js",
+	"umd:main": "dist/index.umd.js",
+	"types": "index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/index.esm.js",
+			"require": "./dist/index.cjs.js",
+			"default": "./dist/index.umd.js"
+		},
+		"./dist/index.esm.js": "./dist/index.esm.js",
+		"./dist/index.umd.js": "./dist/index.umd.js",
+		"./dist/index.cjs.js": "./dist/index.cjs.js"
+	},
 	"engines": {
 		"node": ">=16"
 	},
 	"scripts": {
-		"test": "xo && ava && tsc",
+		"build": "vite build",
+		"test": "ava",
 		"bench": "node benchmark.js"
 	},
 	"files": [
 		"index.js",
+		"dist",
 		"index.d.ts"
 	],
 	"keywords": [
@@ -36,14 +49,11 @@
 		"notation",
 		"dotty"
 	],
-	"dependencies": {
-		"type-fest": "^3.8.0"
-	},
 	"devDependencies": {
 		"ava": "^5.2.0",
 		"benchmark": "^2.1.4",
-		"expect-type": "^0.15.0",
 		"typescript": "^5.0.4",
+		"vite": "^4.4.9",
 		"xo": "^0.54.1"
 	}
 }

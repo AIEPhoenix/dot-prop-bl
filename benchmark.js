@@ -1,5 +1,5 @@
-import Benchmark from 'benchmark';
-import {getProperty, setProperty, hasProperty, deleteProperty} from './index.js';
+const Benchmark = require('benchmark');
+const {getProperty, setProperty, hasProperty, deleteProperty} = require('./dist/index.umd');
 
 const suite = new Benchmark.Suite();
 
@@ -34,7 +34,9 @@ suite
 		getProperty(fixture2, 'foo');
 		getProperty({}, 'hasOwnProperty');
 
-		function fn() {}
+		function fn() {
+		}
+
 		fn.foo = {bar: 1};
 		getProperty(fn);
 		getProperty(fn, 'foo');
@@ -74,7 +76,9 @@ suite
 
 		setProperty(fixture1, 'foo.function', func);
 
-		function fn() {}
+		function fn() {
+		}
+
 		setProperty(fn, 'foo.bar', 1);
 
 		fixture1.fn = fn;
@@ -102,7 +106,9 @@ suite
 		hasProperty({foo: {bar: {baz: null}}}, 'foo.bar.baz');
 		hasProperty({foo: {bar: 'a'}}, 'foo.fake.fake2');
 
-		function fn() {}
+		function fn() {
+		}
+
 		fn.foo = {bar: 1};
 		hasProperty(fn);
 		hasProperty(fn, 'foo');
